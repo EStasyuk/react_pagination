@@ -34,7 +34,7 @@ const Pagination: React.FC<PaginationProps> = ({
     e.preventDefault();
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
-    };
+    }
   };
 
   const handlePageClick = (
@@ -82,7 +82,8 @@ const Pagination: React.FC<PaginationProps> = ({
       ))}
 
       <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
