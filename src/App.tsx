@@ -1,7 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { BrowserRouter as Router, useSearchParams } from 'react-router-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ALL_ITEMS = getNumbers(1, 42).map(n => `Item ${n}`);
@@ -26,7 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const goToPrevPage = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (currentPage > 1) {
-    onPageChange(currentPage - 1);
+      onPageChange(currentPage - 1);
     }
   };
 
@@ -99,20 +98,9 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export const App: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const initialPage = Number(searchParams.get('page')) || 1;
-  const initialPerPage = Number(searchParams.get('perPage')) || 5;
-
-  const [currentPage, setCurrentPage] = useState<number>(initialPage);
-
-  const [itemsPerPage, setItemsPerPage] = useState<number>(initialPerPage);
-
-  useEffect(() => {
-    searchParams.set('page', currentPage.toString());
-    searchParams.set('perPage', itemsPerPage.toString());
-    setSearchParams(searchParams);
-  }, [currentPage, itemsPerPage, searchParams, setSearchParams]);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, ALL_ITEMS.length);
@@ -183,10 +171,4 @@ export const App: React.FC = () => {
   );
 };
 
-const RootApp: React.FC = () => (
-  <Router>
-    <App />
-  </Router>
-);
-
-export default RootApp;
+export default App;
